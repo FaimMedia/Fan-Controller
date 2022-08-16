@@ -156,6 +156,7 @@ const int MS_FAN_CHANGE = 1000;
 const int MENU_ITEM_MAIN = 0;
 const int MENU_ITEM_RPM = 1;
 const int MENU_ITEM_TEMP = 2;
+const int MENU_ITEM_TEMP_MAX = 3;
 
 int menuItem = 0;
 long menuChange = 0;
@@ -224,6 +225,10 @@ void setMenuItem()
 		display.print("Temp");
 	}
 
+	if (menuItem == MENU_ITEM_TEMP_MAX) {
+		display.print("Temp Max");
+	}
+
 	if (menuItem == MENU_ITEM_MAIN) {
 		display.print("Main menu");
 	}
@@ -253,6 +258,19 @@ void createDisplay()
 			display.print("");
 			display.print((char)247);
 			display.print("C");
+		}
+	}
+
+	if (menuItem == MENU_ITEM_TEMP_MAX) {
+		for (int i = 0; i < 2; i++) {
+			float temp = getTemperature(i);
+
+			display.setCursor(0, i * 16);
+			display.setTextSize(2);
+
+			display.print(numberFormat(temp, 4, 1));
+			display.print("  ");
+			display.print(numberFormat(maxTemperature[i], 4, 1));
 		}
 	}
 
@@ -625,7 +643,7 @@ void loop()
 {
 	if(checkButtonValue(0)) {
 		menuItem++;
-		if (menuItem >= 3) {
+		if (menuItem >= 4) {
 			menuItem = 0;
 		}
 
