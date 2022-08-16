@@ -648,7 +648,7 @@ void loop()
 		}
 
 		setMenuItem();
-		nextDisplayChange = millis() + 800;
+		nextDisplayChange = millis() + 1500;
 	}
 
 	if(checkButtonValue(1)) {
@@ -657,7 +657,7 @@ void loop()
 	if(checkButtonValue(2)) {
 		menuItem = 0;
 		setMenuItem();
-		nextDisplayChange = millis() + 800;
+		nextDisplayChange = millis() + 1500;
 	}
 
 	int min;
