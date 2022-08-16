@@ -113,7 +113,7 @@ unsigned long fanSpeedRpm[6] = {
 	0, 0, 0, 0, 0, 0,
 };
 
-long int fanSpeedRpmTime[6] = {
+unsigned long int fanSpeedRpmTime[6] = {
 	0, 0, 0, 0, 0, 0,
 };
 
@@ -145,8 +145,8 @@ const int MENU_ITEM_TEMP = 2;
 int menuItem = 0;
 long menuChange = 0;
 
-long nextDisplayChange = 0;
-long nextFanChange = 0;
+unsigned long nextDisplayChange = 0;
+unsigned long nextFanChange = 0;
 
 /**
  * Init Libraries
@@ -181,7 +181,7 @@ String numberFormat(float value, int length, int decimal)
 /**
  * Simple zero fill (strpad) method
  */
-String zeroFill(int number, int padCount = 3, String padChar = "0")
+String zeroFill(int number, unsigned int padCount = 3, String padChar = "0")
 {
 	String string = String(number);
 
