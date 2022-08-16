@@ -88,6 +88,21 @@ float lastTemperature[2] = {
 	0,
 };
 
+float sumTemperature[2] = {
+	0,
+	0,
+};
+
+float maxTemperature[2] = {
+	0,
+	0,
+};
+
+int sequenceTemperature[2] = {
+	0,
+	0,	
+};
+
 int lastButtonValue[3] = {
 	HIGH,
 	HIGH,
@@ -135,7 +150,7 @@ const int MS_DISPLAY_CHANGE = 500;
 /**
  * The time in micro seconds the fans should update on temperature changes
  **/
-const int MS_FAN_CHANGE = 3000;
+const int MS_FAN_CHANGE = 1000;
 
 
 const int MENU_ITEM_MAIN = 0;
@@ -517,6 +532,38 @@ void testFanRelay()
 }
 
 /**
+ * Get average temperature
+ **/
+float getAvgTemperature (int index) {
+
+	float temp = getTemperature(index);
+
+	if (temp > maxTemperature[index]) {
+		maxTemperature[index] = temp;
+		sumTemperature[index] = 0;
+		sequenceTemperature[index] = 0;
+
+		return temp;
+	}
+
+	sumTemperature[index] += temp;
+	sequenceTemperature[index]++;
+
+	if (sequenceTemperature[index] >= 30) {
+		float avg = sumTemperature[index] / sequenceTemperature[index];
+		maxTemperature[index] = avg;
+
+		// reset avg
+		sumTemperature[index] = 0;
+		sequenceTemperature[index] = 0;
+
+		return avg;		
+	}
+	
+	return maxTemperature[index];
+}
+
+/**
  * APPLICATION
  **/
 
@@ -605,7 +652,7 @@ void loop()
 		min = 25;
 		max = 50;
 
-		float temp = getTemperature(0);
+		float temp = getAvgTemperature(0);
 		if (temp > min) {
 			float calcSpeed = temp - min;
 			calcSpeed = calcSpeed / (max - min) * 100;
@@ -621,7 +668,7 @@ void loop()
 		min = 25;
 		max = 40;
 
-		temp = getTemperature(1);
+		temp = getAvgTemperature(1);
 		if (temp > min) {
 			float calcSpeed = temp - min;
 			calcSpeed = calcSpeed / (max - min) * 100;
