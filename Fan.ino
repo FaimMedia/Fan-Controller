@@ -649,7 +649,7 @@ void loop()
 	if (millis() > nextFanChange) {
 
 		// temp left
-		min = 25;
+		min = 30;
 		max = 50;
 
 		float temp = getAvgTemperature(0);
@@ -658,7 +658,7 @@ void loop()
 			calcSpeed = calcSpeed / (max - min) * 100;
 
 			setFanGroupSpeed(0, calcSpeed);
-			setFanGroupSpeed(1, calcSpeed + 20);
+			setFanGroupSpeed(1, calcSpeed - 10);
 		} else {
 			setFanGroupSpeed(0, 0);
 			setFanGroupSpeed(1, 0);
